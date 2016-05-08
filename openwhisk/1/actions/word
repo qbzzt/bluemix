@@ -1,0 +1,95 @@
+/**
+  *
+  * main() will be invoked when you Run This Action.
+  *
+  */
+function main(params) {
+
+	var cloudant = require("cloudant")({
+		account: "4cddb05d-6f64-48f3-8f94-606428a901b3-bluemix", 
+		password: "c52cadd14ece74a257b6540eb7e8ad5765bb578eb5b63f94849c28fd30f60eb3"
+	});
+	
+	var wordsDb = cloudant.db.use('words');
+
+	wordsDb.get(params.word, { revs_info: false }, function(err, body) {
+  		if (err)
+    		return whisk.done({error: err, body: body});
+    	else {
+			var html = "";
+	
+			// Heading
+			html += "<h2>" + params.word + "</h2>";
+	
+			var list = body;
+	
+			if (list == undefined) 
+				html += "I am not familiar with this word, sorry";
+			else {
+				var langs = Object.keys(list);
+		
+				html += '<table class="table table-striped">';
+				for (var i=0; i<langs.length; i++)
+					if (langs[i] != "_id" && langs[i] != "_rev")
+						html += '<tr><th>' + langs[i] + '</th><td>' + list[langs[i]] + '</td></tr>';
+				html += "</table>";	
+			}
+  
+   			return whisk.done({html: html});
+   		}
+   	});
+
+
+	return whisk.async();
+} 
+ 
+ 
+// The old main with hardwired values 
+/*
+function main(params) {
+	var words = {
+		"Hello" : {
+			Hebrew: "Shalom",
+			Spanish: "Hola",
+			Arabic: "Marchaba"
+		}, 
+		"Goodbye": {
+			Hebrew: "Lehitra'ot",
+			Spanish: "Adios",
+			Arabic: "Illa lika"
+		},
+		"Thanks": {
+			Hebrew: "Toda",
+			Spanish: "Gracias",
+			Arabic: "Shukran",
+			German: "Dankeschoen"
+		},
+		"You're welcome": {
+			Hebrew: "Bevakasha",
+			Spanish: "De nada",
+			Arabic: "Afwan",
+			German: "Bittescoen"
+		}
+	};
+	
+	var html = "";
+	
+	// Heading
+	html += "<h2>" + params.word + "</h2>";
+	
+	var list = words[params.word];
+	
+	if (list == undefined) 
+		html += "I am not familiar with this word, sorry";
+	else {
+		var langs = Object.keys(list);
+		
+		html += '<table class="table table-striped">';
+		for (var i=0; i<langs.length; i++)
+			html += '<tr><th>' + langs[i] + '</th><td>' + list[langs[i]] + '</td></tr>';
+		html += "</table>";	
+	}
+
+	return { "html": html };
+}
+*/
