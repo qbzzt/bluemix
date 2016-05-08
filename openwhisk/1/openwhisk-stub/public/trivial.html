@@ -1,0 +1,77 @@
+
+
+
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>OpenWhisk application</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+    <!--  Use the Angular library  -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.js"></script>
+
+    <script type="text/javascript">
+
+	var myApp = angular.module("myApp", []);
+	var scope;
+
+	// The $http is to use HTTP to retrieve the statistics.
+	// $sanitize sanitizes the incoming HTML
+	myApp.controller("myCtrl", function($scope, $http) {
+		
+		// Make the scope available outside the controller, which is very useful for
+		// debugging
+  		scope = $scope;
+
+		$scope.name = "";
+
+    	$scope.getHtml = function() {
+    		$http.get("/invoke/trivial?name=" + $scope.name)
+          		.then(function(response) {
+          			$("#result").html(response.data.html);
+        			eval(response.data.js);
+        		}, function(response) {
+					alert("Error! " + JSON.stringify(response));
+        		});
+    };
+
+  });
+
+    </script>
+
+
+  </head>
+
+  <body ng-app="myApp" ng-controller="myCtrl">
+  
+	<div class="panel panel-primary">
+  		<div class="panel-heading">
+	  		HTML
+    	</div>
+    	<div class="panel-body" id="result">
+    	</div>
+  	</div>
+
+    <div class="panel panel-info">
+      	<div class="panel-body container">
+      		<div class="row">
+				<div class="col-md-4">
+					Name: <input type="text" ng-model="name" />
+				</div>
+				<div class="col-md-4">
+	    			<button class="btn btn-primary" ng-click="getHtml()">Read Data</button>
+	    		</div>
+    		</div>
+      	</div>
+    </div>
+
+
+  </body>
+</html>
