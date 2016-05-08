@@ -1,0 +1,8 @@
+/**
+  *
+  * main() will be invoked when you Run This Action.
+  *
+  */
+function main(params) {
+	return { "html": "Main Panel" };
+}
