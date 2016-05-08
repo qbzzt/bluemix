@@ -1,0 +1,54 @@
+
+
+
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>OpenWhisk application</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+    <!--  Use the Angular library  -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-sanitize.js"></script> 
+
+    <script type="text/javascript">
+
+	var myApp = angular.module("myApp", ['ngSanitize']);
+	var scope;
+
+	// The $http is to use HTTP to retrieve the statistics.
+	// $sce authorizes the incoming HTML
+	myApp.controller("myCtrl", function($scope, $http, $sce) {
+		
+		// Make the scope available outside the controller, which is very useful for
+		// debugging
+  		scope = $scope;
+		
+		$scope.getHtml = function(tag, action) {
+			$http.get("/invoke/" + action)
+				.then(function(response) {
+					$("#" + tag).html(response.data.html);
+					eval(response.data.js);
+				}, function(err) {alert("Error! " + JSON.stringify(err));});
+		};
+		
+		$scope.getHtml("body", "panels");
+
+    });
+
+
+  </script>
+
+
+  </head>
+
+  <body ng-app="myApp" ng-controller="myCtrl" id="body" height="100%">
+  </body>
+</html>
