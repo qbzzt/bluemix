@@ -1,0 +1,50 @@
+/**
+  *
+  * main() will be invoked when you Run This Action.
+  *
+  */
+function main(params) {
+
+	var cloudant = require("cloudant")({
+		account: "4cddb05d-6f64-48f3-8f94-606428a901b3-bluemix", 
+		password: "c52cadd14ece74a257b6540eb7e8ad5765bb578eb5b63f94849c28fd30f60eb3"
+	});
+	
+	var wordsDb = cloudant.db.use('words');
+
+	wordsDb.get('list', { revs_info: false }, function(err, body) {
+  		if (err)
+    		return whisk.done({error: err, body: body});
+    	else {
+    		var words = body.list;
+    		var html = "";
+   
+			for (var i=0; i<words.length; i++) {
+				var onClick = "scope.getHtml('main', 'word?word=" + escape(words[i]) + "')";
+				html += '<p><button type="button" class="btn btn-info" onClick="' + onClick + '">' + words[i] + '</button></p>';
+			}  
+  
+   			return whisk.done({html: html});
+   		}
+   	});
+
+
+	return whisk.async();
+}
+
+// This is the old, "hard wired" method
+/*
+function main(params) {
+
+	var words = ["Hello", "Goodbye", "Thanks", "You're welcome"]; 
+
+	var html = "";
+		
+	for (var i=0; i<words.length; i++) {
+		var onClick = "scope.getHtml('main', 'word?word=" + escape(words[i]) + "')";
+		html += '<p><button type="button" class="btn btn-info" onClick="' + onClick + '">' + words[i] + '</button></p>';
+	}		
+
+	return { "html": html };
+}
+*/
