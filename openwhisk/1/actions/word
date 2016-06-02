@@ -6,8 +6,8 @@
 function main(params) {
 
 	var cloudant = require("cloudant")({
-		account: "4cddb05d-6f64-48f3-8f94-606428a901b3-bluemix", 
-		password: "c52cadd14ece74a257b6540eb7e8ad5765bb578eb5b63f94849c28fd30f60eb3"
+		account: "VALUE GOES HERE-bluemix", 
+		password: "VALUE GOES HERE"
 	});
 	
 	var wordsDb = cloudant.db.use('words');
