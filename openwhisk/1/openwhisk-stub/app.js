@@ -25,7 +25,7 @@ var appEnv = cfenv.getAppEnv();
 var openwhisk = require('openwhisk');
 var ow = openwhisk({
 	api: 'https://openwhisk.ng.bluemix.net/api/v1/', 
-	api_key: 'a9e334ac-1f8c-4a42-b4ea-f7774ade86da:TSmEXHJ25SZGmOgL9GUmFdDEZRHH1s3XbPzZv1ZauYa6i7kO9Xj85MUkgFxdqowm', 
+	api_key: '*** YOUR API KEY GOES HERE ***';
 	namespace: 'developerWorks_Ori-Pomerantz-apps'});
 
 
