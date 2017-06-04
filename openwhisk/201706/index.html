@@ -18,7 +18,7 @@
 
     <script type="text/javascript">
 
-var owUrl = "https://service.us.apiconnect.ibmcloud.com/gws/apigateway/api/ec74d9ee76d47d2a5f9c4dbae2510b0b8ae5912b542df3e2d6c8308843e70d59/api/userfacing/";
+var owUrl = "https://service.us.apiconnect.ibmcloud.com/gws/apigateway/api/ec74d9ee76d47d2a5f9c4dbae2510b0b8ae5912b542df3e2d6c8308843e70d59/api/userfacing";
 
 var myApp = angular.module("myApp", ['ngSanitize']);
 var scope;
@@ -32,7 +32,7 @@ myApp.controller("myCtrl", function($scope, $http, $sce) {
 	scope = $scope;
 
 	$scope.getHtml = function(tag, action) {
-			$http.get(owUrl + action)
+			$http.get(owUrl + "/" + action)
 				.then(function(response) {
 					$("#" + tag).html(response.data.html);
 					eval(response.data.js);
