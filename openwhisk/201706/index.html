@@ -18,19 +18,20 @@
 
     <script type="text/javascript">
 
-  var owUrl = "https://service.us.apiconnect.ibmcloud.com/gws/apigateway/api/ec74d9ee76d47d2a5f9c4dbae2510b0b8ae5912b542df3e2d6c8308843e70d59/api/userfacing/";
+var owUrl = "https://service.us.apiconnect.ibmcloud.com/gws/apigateway/api/ec74d9ee76d47d2a5f9c4dbae2510b0b8ae5912b542df3e2d6c8308843e70d59/api/userfacing/";
 
-	var myApp = angular.module("myApp", ['ngSanitize']);
-	var scope;
-	// The $http is to use HTTP to retrieve the statistics.
-	// $sce authorizes the incoming HTML
-	myApp.controller("myCtrl", function($scope, $http, $sce) {
+var myApp = angular.module("myApp", ['ngSanitize']);
+var scope;
 
-		// Make the scope available outside the controller, which is very useful for
-		// debugging
-    scope = $scope;
+// The $http is to use HTTP to retrieve the statistics.
+// $sce authorizes the incoming HTML
+myApp.controller("myCtrl", function($scope, $http, $sce) {
 
-		$scope.getHtml = function(tag, action) {
+	// Make the scope available outside the controller, which is very useful for
+	// debugging
+	scope = $scope;
+
+	$scope.getHtml = function(tag, action) {
 			$http.get(owUrl + action)
 				.then(function(response) {
 					$("#" + tag).html(response.data.html);
@@ -38,7 +39,7 @@
 				}, function(err) {alert("Error! " + JSON.stringify(err));});
 		};
 
-		$scope.getHtml("body", "trivial");
+	$scope.getHtml("body", "trivial");
     });
   </script>
 
