@@ -1,4 +1,4 @@
-; (ns action.core)
+(ns action.core)
 
 
 (def dbase {
