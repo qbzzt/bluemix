@@ -1,10 +1,8 @@
 // Get a Clojure environment
 var cljs = require('clojurescript-nodejs');
 
-
 // Evaluate the action code
 cljs.evalfile(__dirname + "/action.cljs");
-
 
 // The main function, the one called when the action is invoked
 var main = function(params) {

@@ -10,10 +10,13 @@
   })
 
 
+ (.log js/console dbase)
+
 (defn cljsMain [params] (
     let [
-      action (params "action")
-      data (params "data")
+      cljParams (js->clj params)
+      action (get cljParams "action")
+      data (get cljParams "data")
     ]
 
     (case action
