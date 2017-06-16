@@ -22,9 +22,9 @@
     (case action
       "getAll" {"data" dbase}
       "getAvailable" {"data" (into {} (filter #(> (nth % 1) 0) dbase))}
-      "processCorrection" (def dbase (into dbase data))
-      "processPurchase" (def dbase (merge-with #(- %1 %2) dbase data))
-      "processReorder" (def dbase (merge-with #(+ %1 %2) dbase data))
+      "processCorrection" (do (def dbase (into dbase data)) {"data" dbase})
+      "processPurchase" (do (def dbase (merge-with #(- %1 %2) dbase data)) {"data" dbase})
+      "processReorder" (do (def dbase (merge-with #(+ %1 %2) dbase data)) {"data" dbase})
       {"error" "Unknown action"}
     )
   )
