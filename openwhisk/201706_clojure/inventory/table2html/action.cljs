@@ -7,10 +7,14 @@
 (defn cljsMain [params] (
     let [
       cljParams (js->clj params)
-      data (get cljParams "data")
-      html (get data "html")
+      htmlTable (get cljParams "html")
+      bootstrapTable (clojure.string/replace htmlTable
+          "<table>"
+          "<table class=\"table table-striped\"> ")
+      delme (prn "Parameter HTML:")
+      delme (prn htmlTable)
     ]
 
-    {"html" (clojure.string/join [header html footer])}
+    {"html" (clojure.string/join [header bootstrapTable footer])}
   )
 )
