@@ -15,6 +15,6 @@
       delme (prn htmlTable)
     ]
 
-    {"html" (clojure.string/join [header bootstrapTable footer])}
+    {"html" (clojure.string/join [header (clojure.string/replace bootstrapTable "$$$" "\"") footer])}
   )
 )

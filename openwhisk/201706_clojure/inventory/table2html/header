@@ -13,4 +13,8 @@
   </head>
 
   <body>
+    <button type="button" class="btn btn-primary" onClick="window.location.href='showItems?action=getAvailable'">
+	See available items</button><br />
+    <button type="button" class="btn btn-info" onClick="window.location.href='showItems?action=getAll'">
+	See all items</button><br />
     
