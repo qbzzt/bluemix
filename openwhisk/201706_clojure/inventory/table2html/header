@@ -19,4 +19,8 @@
 	See all items</button><hr />
     <button type="button" class="btn btn-success" onClick="window.location.href='purchase?action=getAvailable'">
         Process a purchase</button><br /> 
+    <button type="button" class="btn btn-info" onClick="window.location.href='reorder?action=getAll'">
+        Process a reorder</button><br />
+    <button type="button" class="btn btn-warning" onClick="window.location.href='modify?action=getAll'">
+        Modify the number of items</button><br />
     <hr />

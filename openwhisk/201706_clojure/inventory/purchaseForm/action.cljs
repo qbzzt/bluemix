@@ -19,7 +19,7 @@
     {"html" (clojure.string/join
         [
 	"<form method=$$$post$$$>"
-	"<table><tr><th>Item</th><th>Amt. in Stock</th><th>Purchase Amt.</th></tr>"
+	"<table><tr><th>Item</th><th>Amt. in Stock</th><th>Amount</th></tr>"
         rowsAsString
         "</table><br /><button type=$$$submit$$$>Submit</button>"
 	"</form>"
