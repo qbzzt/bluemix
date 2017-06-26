@@ -19,3 +19,4 @@
 	See all items</button><hr />
     <button type="button" class="btn btn-success" onClick="window.location.href='purchase?action=getAvailable'">
         Process a purchase</button><br /> 
+    <hr />
