@@ -1,4 +1,4 @@
-(ns action.core (:require clojure.string))
+(ns action.core)
 
 
 (defn cljsMain [params] params) 
