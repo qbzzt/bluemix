@@ -2,7 +2,7 @@
 <html>
 
   <head>
-    <title>Account Approval Demonstration</title>
+    <title>Clojure OpenWhisk Inventory Management</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
@@ -16,5 +16,6 @@
     <button type="button" class="btn btn-primary" onClick="window.location.href='showItems?action=getAvailable'">
 	See available items</button><br />
     <button type="button" class="btn btn-info" onClick="window.location.href='showItems?action=getAll'">
-	See all items</button><br />
-    
+	See all items</button><hr />
+    <button type="button" class="btn btn-success" onClick="window.location.href='purchase?action=getAvailable'">
+        Process a purchase</button><br /> 
