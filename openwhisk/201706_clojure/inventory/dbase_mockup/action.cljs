@@ -28,7 +28,7 @@
           {"data" dbase}
       )
       "processReorder" (do
-          (def dbase (merge-with #(+ %1 %2) dbase data))
+          (def dbase (merge-with #(+ (cljs.reader/parse-int %1) (cljs.reader/parse-int %2)) dbase data))
           {"data" dbase}
       )
       {"error" "Unknown action"}
