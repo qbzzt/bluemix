@@ -2,7 +2,7 @@
 
 (def cloudant-fun (js/require "cloudant"))
 
-(def cloudant (cloudant-fun <<URL GOES HERE>>))
+(def cloudant (cloudant-fun "url goes here"))
 
 (def mydb (.use (aget cloudant "db") "openwhisk_inventory"))
 

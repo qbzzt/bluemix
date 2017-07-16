@@ -8,3 +8,4 @@ node_modules
 # openwhisk/201706_clojure/inventory/dbase_mockup/node_modules
 # openwhisk/201706_clojure/inventory/json2table/node_modules
 # openwhisk/201706_clojure/inventory/table_in_html/node_modules
+*.with_login_info
