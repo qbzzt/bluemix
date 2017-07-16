@@ -1,6 +1,5 @@
 *.zip
 *.npmignore
-*.sh
 *.cljc
 *.map
 *.edn

@@ -35,9 +35,8 @@ var main = function(params) {
   var paramsString = JSON.stringify(fixHash(params));
   paramsString = paramsString.replace(/"/g, '\\"');
 
-	console.log("JSON:" + JSON.stringify(clojureEnv));
-
   clojure += '(clj->js (action.core/cljsMain (js* "' + paramsString + '")))';
+
 
   var retVal = clojureEnv.eval(clojure, [__dirname], true);
 
