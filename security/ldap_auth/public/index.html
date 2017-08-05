@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<html ng-app="myApp" ng-controller="myCtrl">
+
+  <head>
+    <title>Login Screen</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    
+    
+  </head>
+
+  <body>
+
+    <form action="login" role="form" method="post" class="form-inline">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          Log In
+        </div>
+        <div class="panel-body">
+          User name: <input type="text" name="uid" class="form-control"><br />
+          Password: <input type="password" name="passwd" class="form-control"><br />
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </div>
+
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          LDAP Server
+        </div>
+        <div class="panel-body">
+          LDAP URL: 
+          <input type="text" name="ldap_url" class="form-control" value="ldap://ldap.simple-tech.com" />
+          <br />
+          LDAP Suffix: 
+          <input type="text" name="ldap_suffix" class="form-control" value="o=simple-tech" />
+          <br />
+          Admin DN:
+          <input type="text" name="ldap_dn" class="form-control" value="cn=admin,o=simple-tech" />
+          <br />
+          LDAP Admin password: <input type="password" name="ldap_passwd" value="object00" class="form-control">
+          <br />
+        </div> 
+      </div>
+ 	 
+    </form>
+  </body>
+</html>

@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html ng-app="myApp" ng-controller="myCtrl">
+
+  <head>
+    <title>Main Page</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+	<!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    
+    <!--  Use the Angular library  -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular.js">
+    </script>
+
+    <!-- Get the user data. That file includes the non-static material -->
+    <script src="userData.js"></script>
+    
+	<script>
+	var myApp = angular.module("myApp", []);
+	var scope;
+
+	myApp.controller("myCtrl", function($scope) {
+  		scope = $scope;
+   		$scope.userData = userData;
+  	});
+  	</script>
+        
+    
+  </head>
+
+  <body ng-app="myApp" ng-controller="myCtrl">
+  
+  <!-- No user data because there is no user -->
+  <div class="alert alert-danger" role="alert" ng-if="userData.name == undefined">
+	<h2>You are not logged on</h2>
+	<button type="button" class="btn btn-primary" onClick="window.location = 'index.html';">Log on page</button>
+  </div>
+
+	<div ng-if="userData.name != undefined">  
+		<h2>Hello {{userData.name}}</h2>
+		<button type="button" class="btn btn-info" onCLick="window.location = 'men.html'">Men's Page</button><br />
+		<button type="button" class="btn btn-info" onCLick="window.location = 'women.html'">Women's Page</button>
+	</div>
+
+  </body>
+</html>
