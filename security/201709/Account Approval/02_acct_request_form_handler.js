@@ -1,4 +1,44 @@
-var cloudantUrl = "<<redacted>> 6506-bluemix.cloudant.com";
+// Replace with your value
+var cloudantUrl = "https://65e2<<redacted>>86506-bluemix.cloudant.com";
+
+// We don't store passwords in cleartext
+var crypto = require("crypto");
+
+// Cryptographic material taken from https://ciphertrick.com/2016/01/18/salt-hash-passwords-using-nodejs-crypto/
+var genRandomString = function(length){
+    return crypto.randomBytes(Math.ceil(length/2))
+            .toString('hex') /** convert to hexadecimal format */
+            .slice(0,length);   /** return required number of characters */
+};
+
+
+/**
+ * hash password with sha512.
+ * @function
+ * @param {string} password - List of required fields.
+ * @param {string} salt - Data to be validated.
+ */
+var sha512 = function(password, salt){
+    var hash = crypto.createHmac('sha512', salt); /** Hashing algorithm sha512 */
+    hash.update(password);
+    var value = hash.digest('hex');
+    return {
+        salt:salt,
+        passwordHash:value
+    };
+};
+
+
+function saltHashPassword(userpassword) {
+    var salt = genRandomString(16); /** Gives us salt of length 16 */
+    var passwordData = sha512(userpassword, salt);
+
+    return passwordData.salt + ":" + passwordData.passwordHash;
+}
+
+
+
+
 
 
 // Table of statuses and their messages
@@ -37,7 +77,7 @@ function main(params) {
             if (err != null && err.statusCode == 404)  {
                 mydb.insert( {
                     _id: params.uid,
-                    pwd: params.pwd,
+                    pwd: saltHashPassword(params.pwd),
                     status: "unapproved"
                 },   // Data to insert
                 function() {
