@@ -63,13 +63,12 @@ reqStatus = function(status, user) {
 }
 
 
+    
+var cloudant = require("cloudant")(cloudantUrl);
+var mydb = cloudant.db.use("accounts");
 
 
-function main(params) {
-    
-    var cloudant = require("cloudant")(cloudantUrl);
-    var mydb = cloudant.db.use("accounts");
-    
+function main(params) {    
     return new Promise(function(success, failure) {
         mydb.get(params.uid, function(err, body) {
             
