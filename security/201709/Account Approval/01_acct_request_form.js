@@ -11,6 +11,7 @@ function main(params) {
 	    
 	    </head>
 	    <body>
+	        <h2>Self Registration Form</h2>
 	        <div class="well">
 	            <form method="post" action="self_reg_handler">
 	                <table class="table">
