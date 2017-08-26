@@ -1,5 +1,5 @@
 // Replace with your value
-var cloudantUrl = "https://65e2<<redacted>>86506-bluemix.cloudant.com";
+var cloudantUrl = "https://<<redacted>>-b18c-93f1b9986506-bluemix.cloudant.com";
 
 // We don't store passwords in cleartext
 var crypto = require("crypto");
@@ -54,6 +54,12 @@ reqStatus = function(status, user) {
         <html>
             <head>
                 <title>Registration result</title>
+                
+
+    	        <!-- Use Bootstrap with the default theme -->
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>                    
             </head>
             <body>
                 <p>Hello, ${user}. ${statusResponse[status]}</p>
@@ -63,12 +69,13 @@ reqStatus = function(status, user) {
 }
 
 
-    
+
 var cloudant = require("cloudant")(cloudantUrl);
 var mydb = cloudant.db.use("accounts");
 
 
-function main(params) {    
+
+function main(params) {
     return new Promise(function(success, failure) {
         mydb.get(params.uid, function(err, body) {
             
