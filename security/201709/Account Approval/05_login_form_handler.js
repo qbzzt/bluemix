@@ -134,8 +134,6 @@ function main(params) {
 
             // Check the password
             if (checkPwd(params.pwd, body.pwd)) {
-                console.log("checkPwd(" + params.pwd + "," + body.pwd + ") is true");
-                
                 switch (body.status) {
                     case "approved":
                         success({html: html4Approved(params.uid)});
