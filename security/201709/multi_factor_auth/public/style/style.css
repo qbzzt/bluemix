@@ -1,0 +1,181 @@
+/* style.css
+ * This file provides css styles.
+ */
+
+body,html {
+	background-color: #f5f7fa;
+	width: 100%;
+	height: 100%;
+	margin: 0 auto;
+	font-family: Lato,sans-serif;
+	color: #283D56;
+}
+
+/* header footer common */
+header, footer {
+	width: 100%;
+	text-align: center;
+}
+
+.container {
+	height: 100%;
+	overflow: auto;
+	display: flex;
+	flex-direction: column;
+}
+
+.banner {
+	background: #5586D6;
+	color: #fff;
+	padding: 10px;
+}
+
+/* positions */
+header {
+	padding-top: 20px;
+	font-size: 1.3em;
+}
+footer {
+	padding: 10px;
+	font-size: .8rem;
+}
+.title, .tips {
+	height: 30px;
+	padding-top: 20px;
+	position: relative;
+}
+.title {
+	border-radius: 40px 40px 0 0;
+}
+.tips {
+	border-radius: 0 0 40px 40px;
+}
+
+table {
+	table-layout: fixed;
+	word-wrap: break-word;
+	position: relative;
+	border-collapse: collapse;
+	width: 100%;
+}
+.content {
+	font-size: .8rem;
+	width: 30%;
+	vertical-align: top;
+}
+.contentName {
+	padding: 10px;
+	padding-left: 20px;
+	width: 25%;
+	font-weight:bold;
+	vertical-align: top;
+}
+.contentDetails {
+	padding: 10px;
+}
+.contentAction {
+	width: 10%;
+	padding-right: 20px;
+	text-align: right;
+}
+
+.nameText {
+	font-weight: bold;
+}
+.records textarea {
+	height: 1.2em;
+	font-size: 1em;
+	resize: none;
+	width: 100%;
+	border: none;
+	overflow: hidden;
+	background-color: transparent;
+	font-size: .9em;
+}
+
+/* buttons */
+.detailBtn {
+	position: absolute;
+	left: 20px;
+	top: 10px;
+	background: none;
+	border: none;
+	cursor: pointer;
+}
+.addBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.detailBtn img{
+	width: 20px;
+	height: 20px;
+}
+.deleteBtn{
+  background-image: url("../images/sprite.png");
+  background-position: -5px -568px;
+  width: 18px;
+  height: 18px;
+    display:inline-block;
+}
+
+tr:hover .deleteBtn {
+
+	cursor: pointer;
+}
+
+
+.tableRows{
+	border: 2px solid #DFE3E6
+}
+
+
+
+.fieldname {
+	text-align: right;
+	border-right: 1px solid #fff;
+}
+
+.errorMsg {
+	color: red;
+	font-weight:normal;
+}
+.newappIcon {
+  display: block;
+  max-width: 100px;
+  max-height: 100px;
+  margin: 0 auto;
+	padding: 10px;
+}
+
+.appTitle {
+	padding: 15px;
+  margin: 0 auto;
+  text-align: center;
+	font-size: 1.5rem;
+}
+
+.description {
+  padding-left: 50px;
+  padding-right: 50px;
+  text-align: center;
+}
+
+.infoImg {
+	cursor: pointer;
+}
+.flexBox {
+	display: flex;
+	flex-wrap: wrap;
+}
+.contentTiles {
+		padding: 10px;
+		font-size: .8rem;
+}
+.uploadBox {
+  margin: 0 auto;
+  text-align: center;
+}
+.appinfo {
+	padding: 10px;
+}

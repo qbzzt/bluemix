@@ -1,0 +1,22 @@
+{
+  "name": "cloudant_boilerplate_nodejs",
+  "version": "0.0.2",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "4.15.x",
+    "ejs": "2.5.x",
+    "cloudant": "1.7.x",
+    "body-parser": "1.17.x",
+    "method-override": "2.3.x",
+    "morgan": "1.8.x",
+    "errorhandler": "1.5.x",
+    "connect-multiparty": "2.0.x"
+  },
+  "repository": {},
+  "engines": {
+    "node": "6.x"
+  }
+}

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<!-- saved from url=(0030)https://mfa-app.mybluemix.net/ -->
+<html ng-app="myApp" ng-controller="myCtrl" class="ng-scope"><head ng-app="myApp" ng-controller="myCtrl" class="ng-scope"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style type="text/css">@charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>
+    <title>Two Factor Login</title>
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <script src="./index_files/jquery.min.js.download"></script>
+
+    <link rel="stylesheet" href="./index_files/bootstrap.min.css">
+    <link rel="stylesheet" href="./index_files/bootstrap-theme.min.css">
+    <script src="./index_files/bootstrap.min.js.download"></script>
+    
+    <!--  Use the Angular library  -->
+    <script src="./index_files/angular.js.download"></script>
+    <script src="./index_files/angular-cookies.js.download"></script>
+
+    
+	<script>
+	var myApp = angular.module("myApp", []);
+	var scope;
+		
+
+	myApp.controller("myCtrl", function($scope) {
+		// Make the scope available outside the controller, which is very useful for
+		// debugging
+  		scope = $scope;
+  		$scope.email = "";
+  		$scope.passwd = "";
+  		$scope.registerEmail = "";
+  		$scope.registerPasswd1 = "";
+		$scope.registerPasswd2 = ""; 
+		
+		// The reason a password / password pair is invalid
+		$scope.pwdInvalid = "";
+		
+		// Check if the password for registration is valid. 
+		$scope.regPwdValid = function() {
+			if ($scope.registerPasswd1.length === 0) {
+				$scope.pwdInvalid = "";   // No message if there is no password yet
+				return false;   // But it is still not valid				
+			}
+			
+			if ($scope.registerPasswd1.length < 6) {
+				$scope.pwdInvalid = "The password is too short";
+				return false;
+			}
+
+
+			if ($scope.registerPasswd1 !== $scope.registerPasswd2) {
+				$scope.pwdInvalid = "Passwords do not match";
+				return false;
+			}
+			
+			// If we get here the function is fine
+			return true;
+		};
+  	});
+    
+    </script>
+    
+       
+  </head>
+
+  <body>
+
+    <form action="https://mfa-app.mybluemix.net/login" role="form" method="post" class="form-inline ng-pristine ng-valid">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          Log In
+        </div>
+        <div class="panel-body">
+          Email address: <input type="text" name="email" class="form-control ng-pristine ng-untouched ng-valid" ng-model="email"><br>
+          Password: <input type="password" name="passwd" class="form-control"><br>
+          <button type="submit" class="btn btn-primary">Submit</button>
+          <br>
+        </div>
+      </div>   
+    </form>   <!-- Login form -->
+    
+
+  <form action="https://mfa-app.mybluemix.net/register" role="form" method="post" class="form-inline ng-pristine ng-valid">    
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        Register
+      </div>
+      <div class="panel-body">
+        Email address: <input type="text" name="email" class="form-control ng-pristine ng-untouched ng-valid" ng-model="registerEmail"><br>
+        <table>
+  	  <tbody><tr><td>
+            Password: 
+            <input type="password" class="form-control ng-pristine ng-untouched ng-valid" ng-model="registerPasswd1" name="passwd1">
+          </td>
+          <td rowspan="2">
+            <h2>
+	      <!-- ngIf: !regPwdValid() && pwdInvalid !== '' -->          
+	    </h2>
+          </td></tr>
+          <tr><td>
+            Confirm Password: 
+            <input type="password" class="form-control ng-pristine ng-untouched ng-valid" name="passwd2" ng-model="registerPasswd2">
+          </td></tr>
+        </tbody></table>
+        <button type="submit" ng-class="{
+        	btn: true,
+        	&#39;btn-primary&#39;: true,
+        	disabled: !regPwdValid()
+        }" class="btn btn-primary disabled">Submit</button>
+        <br>
+      </div>
+    </div>
+  </form>   <!-- -- register form ---->
+  
+  <a href="https://mfa-app.mybluemix.net/risk.html">Click here to calculate risk level to decide if you need two factor authentication</a>
+
+  
+
+</body></html>
