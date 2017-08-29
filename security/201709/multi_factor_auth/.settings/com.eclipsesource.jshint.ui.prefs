@@ -1,4 +1,0 @@
-eclipse.preferences.version=1
-excluded=node_lib//*:node_modules//*:bower_components//*
-included=//*.jjs\://*.js\://*.jshintrc\://*.json\://*.mjs\://*.njs\://*.pjs://*.vjs
-projectSpecificOptions=true
