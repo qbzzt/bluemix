@@ -1,0 +1,120 @@
+
+<!DOCTYPE html>
+<html ng-app="myApp" ng-controller="myCtrl">
+
+  <head ng-app="myApp" ng-controller="myCtrl">
+    <title>Two Factor Login</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    
+    <!--  Use the Angular library  -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-cookies.js"></script>
+
+    
+	<script>
+	var myApp = angular.module("myApp", []);
+	var scope;
+		
+
+	myApp.controller("myCtrl", function($scope) {
+		// Make the scope available outside the controller, which is very useful for
+		// debugging
+  		scope = $scope;
+  		$scope.email = "";
+  		$scope.passwd = "";
+  		$scope.registerEmail = "";
+  		$scope.registerPasswd1 = "";
+		$scope.registerPasswd2 = ""; 
+		
+		// The reason a password / password pair is invalid
+		$scope.pwdInvalid = "";
+		
+		// Check if the password for registration is valid. 
+		$scope.regPwdValid = function() {
+			if ($scope.registerPasswd1.length === 0) {
+				$scope.pwdInvalid = "";   // No message if there is no password yet
+				return false;   // But it is still not valid				
+			}
+			
+			if ($scope.registerPasswd1.length < 6) {
+				$scope.pwdInvalid = "The password is too short";
+				return false;
+			}
+
+
+			if ($scope.registerPasswd1 !== $scope.registerPasswd2) {
+				$scope.pwdInvalid = "Passwords do not match";
+				return false;
+			}
+			
+			// If we get here the function is fine
+			return true;
+		};
+  	});
+    
+    </script>
+    
+       
+  </head>
+
+  <body>
+
+    <form action="login" role="form" method="post" class="form-inline">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          Log In
+        </div>
+        <div class="panel-body">
+          Email address: <input type="text" name="email" class="form-control" ng-model="email"><br />
+          Password: <input type="password" name="passwd" class="form-control"><br />
+          <button type="submit" class="btn btn-primary">Submit</button>
+          <br />
+        </div>
+      </div>   
+    </form>   <!-- Login form -->
+    
+
+  <form action="register" role="form" method="post" class="form-inline">    
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        Register
+      </div>
+      <div class="panel-body">
+        Email address: <input type="text" name="email" class="form-control" ng-model="registerEmail"><br />
+        <table>
+  	  <tr><td>
+            Password: 
+            <input type="password" class="form-control" ng-model="registerPasswd1" name="passwd1">
+          </td>
+          <td rowspan="2">
+            <h2>
+	      <span class="label label-danger" ng-if="!regPwdValid() && pwdInvalid !== ''">
+	         {{pwdInvalid}}  
+	      </span>          
+	    </h2>
+          </td></tr>
+          <tr><td>
+            Confirm Password: 
+            <input type="password" class="form-control" name="passwd2" ng-model="registerPasswd2">
+          </td></tr>
+        </table>
+        <button type="submit" ng-class="{
+        	btn: true,
+        	'btn-primary': true,
+        	disabled: !regPwdValid()
+        }">Submit</button>
+        <br />
+      </div>
+    </div>
+  </form>   <! -- register form -->
+  
+  <a href="risk.html">Click here to calculate risk level to decide if you need two factor authentication</a>
+
+  </body>
+</html>
