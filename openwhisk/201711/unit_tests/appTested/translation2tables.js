@@ -14,10 +14,11 @@ function main(params) {
     // To understand this code, see 
     // https://danmartensen.svbtle.com/javascripts-map-reduce-and-filter
     
+	
 	if (params.translation) {
 	    var languages = Object.keys(params.translation);
 	    var transTableLines = languages.map((lang) =>
-	        `<tr><th>${lang}</th></td>${params.translation[lang]}</td></tr>`);
+	        `<tr><th>${lang}</th><td>${params.translation[lang]}</td></tr>`);
 	    
 	    translation = '<table class="table">' +
 	        transTableLines.reduce((a,b) => a+b) +
