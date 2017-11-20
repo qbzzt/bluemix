@@ -6,11 +6,19 @@ var ow = openwhisk({
  
 function main(params) {
     return new Promise((success, failure) => {
-        ow.actions.invoke({
-            // Replace with your own URL
+        var invocation = ow.actions.invoke({
             name: '/developerWorks_Ori-Pomerantz-apps/unit-tests/getTranslation',
             blocking: true,
             params: params
-        }).then((resVal) => success(resVal.response.result));
+        });
+        
+        invocation.then((resVal) => {
+            var logMe = {
+                input: params,
+                output: resVal.response.result
+            };
+            console.log(logMe);
+            success(resVal.response.result);
+        });
   });
 }
