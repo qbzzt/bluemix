@@ -48,7 +48,7 @@ function main(params) {
                             success(resVal.response.result);
                         });   // end of mydb.insert call
                 }  // End of "this value has not been found"
-                else {  // Assume value has been found, for the same of simplicity
+                else {  // Assume value has been found, for the sake of simplicity
                 
                     // We found this before, but the output was different then
                     if (JSON.stringify(body.data) !== JSON.stringify(logMe)) {
