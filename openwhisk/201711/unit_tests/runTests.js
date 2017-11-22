@@ -1,16 +1,16 @@
 var openwhisk = require('openwhisk');
 var ow = openwhisk({
     apihost: 'openwhisk.ng.bluemix.net', 
-    api_key: '<<<redact>>>'
+    api_key: '<<<redacted>>>'
 });
 
 
 var cloudantCred = {
-  "username": "<<<redact>>>",
-  "password": "<<<redact>>>",
+  "username": "<<<redacted>>>",
+  "password": "<<<redacted>>>",
   "host": "4d1cded5-56a3-4ad9-a59a-9c68c192995c-bluemix.cloudant.com",
   "port": 443,
-  "url": "<<<redact>>>"
+  "url": "<<<redacted>>>"
 };
 
 
