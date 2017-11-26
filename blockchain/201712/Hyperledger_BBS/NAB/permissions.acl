@@ -14,7 +14,7 @@ rule SendMessages {
     participant(p): "com.ibm.developerworks.orip.bbs.Sender"
     operation: CREATE
     resource(r): "com.ibm.developerworks.orip.bbs.Message"
-    condition: (r.sender === p.getIdentifier())
+  	condition: (r.sender.participantId == p.getIdentifier())
     action: ALLOW
 }
 
