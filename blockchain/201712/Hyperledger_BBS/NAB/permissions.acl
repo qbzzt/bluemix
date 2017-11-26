@@ -1,0 +1,44 @@
+/**
+ * Sample access control list.
+ */
+rule EverybodyCanReadEverything {
+    description: "Allow all participants read access to all resources"
+    participant: "com.ibm.developerworks.orip.bbs.Sender"
+    operation: READ
+    resource: "com.ibm.developerworks.orip.bbs.*"
+    action: ALLOW
+}
+
+rule SendMessages {
+    description: "Allow all participants to send messages"
+    participant(p): "com.ibm.developerworks.orip.bbs.Sender"
+    operation: CREATE
+    resource(r): "com.ibm.developerworks.orip.bbs.Message"
+    condition: (r.sender === p.getIdentifier())
+    action: ALLOW
+}
+
+
+rule SystemACL {
+  description:  "System ACL to permit all access"
+  participant: "org.hyperledger.composer.system.Participant"
+  operation: ALL
+  resource: "org.hyperledger.composer.system.**"
+  action: ALLOW
+}
+
+rule NetworkAdminUser {
+    description: "Grant business network administrators full access to user resources"
+    participant: "org.hyperledger.composer.system.NetworkAdmin"
+    operation: ALL
+    resource: "**"
+    action: ALLOW
+}
+
+rule NetworkAdminSystem {
+    description: "Grant business network administrators full access to system resources"
+    participant: "org.hyperledger.composer.system.NetworkAdmin"
+    operation: ALL
+    resource: "org.hyperledger.composer.system.**"
+    action: ALLOW
+}
