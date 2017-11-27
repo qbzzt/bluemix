@@ -1,6 +1,3 @@
-/**
- * Sample access control list.
- */
 rule EverybodyCanReadEverything {
     description: "Allow all participants read access to all resources"
     participant: "com.ibm.developerworks.orip.bbs.Sender"
