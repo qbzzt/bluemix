@@ -1,0 +1,187 @@
+
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>LDAP and Active Directory Log On</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    <!--  Use the Angular library  -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-sanitize.js"></script>
+    
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    
+
+    <script type="text/javascript">
+
+var myApp = angular.module("myApp", []);
+
+var scope;
+
+myApp.controller("myCtrl", function($scope, $http) {
+	scope = $scope;  // Facilitate debugging
+	
+	$scope.type = "LDAP";
+	$scope.ldap = {
+		serverUrl: "ldap://www.zflexldap.com",
+		username: "guest1",
+		suffix: "dc=zflexsoftware,dc=com",		
+		password: "guest1password",
+		readerDN: "cn=ro_admin,ou=sysadmins,dc=zflexsoftware,dc=com",
+		readerPwd: "zflexpass"
+
+	};
+	
+	$scope.ad = {
+		serverUrl: "",
+		username: "",
+		domain: "",
+		password: ""		
+	};
+	
+	
+	$scope.response = "";
+	
+	
+	$scope.log = (str) => {console.log(str);};
+	
+	$scope.logonLDAP = () => {
+		$scope.response = "Please wait";
+		$http.post('/ldap', JSON.stringify($scope.ldap)).then(
+			(resp) => {$scope.response = resp.data;},
+			(resp) => {$scope.response = "Error: " + JSON.stringify(resp);}
+		);
+	};
+
+	$scope.logonAD = () => {
+		$scope.response = "Please wait";		
+		$http.post('/ad', JSON.stringify($scope.ldap)).then(
+			(resp) => {$scope.response = resp.data;},
+			(resp) => {$scope.response = "Error: " + JSON.stringify(resp);}
+		);
+	};
+
+	
+});
+
+	</script>    
+    
+  </head>
+
+  <body ng-app="myApp" ng-controller="myCtrl">
+  
+  	<h2>LDAP and Active Directory Log On</h2>
+  	
+  	<div class="panel panel-success">
+  		<div class="panel-heading">
+  			Log on to
+  		</div>
+  		<div class="panel-body">
+			<input type="radio" ng-model="type" value="LDAP">LDAP
+			<input type="radio" ng-model="type" value="AD">Active Directory
+		</div>
+	</div>   <!-- login type -->
+       		
+	<div ng-class="{panel: true,
+					'panel-primary': type==='LDAP',
+					'panel-info' : type==='AD'}"
+					>
+		<div class="panel-heading">
+			LDAP Details
+		</div>
+		<div class="panel-body">
+			<table class="table">
+				<tr>
+					<td>Server URL</td>
+					<td><input type="text" ng-model="ldap.serverUrl" ng-disabled="type==='AD'"></td>
+				</tr>
+				<tr>
+					<td>LDAP Suffix</td>
+					<td><input type="text" ng-model="ldap.suffix" ng-disabled="type==='AD'"></td>
+				</tr>									
+				<tr>
+					<td>Username</td>
+					<td><input type="text" ng-model="ldap.username" ng-disabled="type==='AD'"></td>
+				</tr>
+				<tr>
+					<td>Password</td>
+					<td><input type="password" ng-model="ldap.password" ng-disabled="type==='AD'"></td>
+				</tr>		
+				<tr><th colspan="2">Reader account</th></tr>
+				<tr>
+					<td>Reader DN</td>
+					<td><input type="text" ng-model="ldap.readerDN" ng-disabled="type==='AD'"></td>
+				</tr>
+				<tr>
+					<td>Reader Password</td>
+					<td><input type="password" ng-model="ldap.readerPwd" ng-disabled="type==='AD'"></td>
+				</tr>				
+							
+			</table>
+
+			<button type="button" class="btn btn-primary" ng-disabled="type==='AD'"
+				ng-click="logonLDAP();"
+			>
+				Attempt to log on
+			</button>
+
+		</div>
+	</div> <!-- panel for LDAP -->
+
+
+	<div ng-class="{panel: true,
+					'panel-primary': type==='AD',
+					'panel-info' : type==='LDAP'}"
+					>
+		<div class="panel-heading">
+			Active Directory Details
+		</div>
+		<div class="panel-body">
+
+			<table class="table">
+				<tr>
+					<td>Server URL</td>
+					<td><input type="text" ng-model="ad.serverUrl" ng-disabled="type==='LDAP'"></td>
+				</tr>
+				<tr>
+					<td>User name and Domain</td>
+					<td>
+						<input type="text" ng-model="ad.username" ng-disabled="type==='LDAP'"> 
+						@
+						<input type="text" ng-model="ad.domain" ng-disabled="type==='LDAP'"> 
+					</td>
+				</tr>	
+				<tr>
+					<td>Password</td>
+					<td><input type="password" ng-model="ad.password" ng-disabled="type==='LDAP'"></td>
+				</tr>		
+			</table>
+			
+			<button type="button" class="btn btn-primary" ng-disabled="type==='LDAP'"
+				ng-click="logonAD();"
+			>
+				Attempt to log on
+			</button>
+			
+				
+		</div>
+	</div> <!-- panel for AD -->
+
+	<div class="panel panel-success">
+		<div class="panel-heading">
+			Response
+		</div>
+		<div class="panel-body">
+			<pre>{{response}}</pre>
+		</div>
+	</div>
+
+  </body>
+
+</html>
