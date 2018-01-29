@@ -75,7 +75,7 @@ app.post("/ldap", (req, res) => {
 						result += "DN:" + searchList[i].objectName + "\n";
 					result += "Search retval:" + retVal + "\n";					
 					
-					if (searchList.length === 1) {
+					if (searchList.length === 1) {					
 						client.bind(searchList[0].objectName, req.body.password, function(err) {
 							if (err) 
 								result += "Bind with real credential error: " + err;
@@ -97,7 +97,7 @@ app.post("/ldap", (req, res) => {
 		
 	}); // client.bind  (reader account)
 	
-}); // app.post
+}); // app.post("/ldap"...)
 
 
 
@@ -118,7 +118,112 @@ app.post("/ad", (req, res) => {
 
 	}); // client.bind
 	
-}); // app.post
+}); // app.post("/ad...")
+
+
+
+app.post("/ldapGrp", (req, res) => {
+	var result = "";    // To send back to the client
+	
+	var client = ldap.createClient({
+  		url: req.body.serverUrl
+	});
+	
+	client.bind(req.body.readerDN, req.body.readerPwd, function(err) {
+		if (err) {
+			result += "Reader bind failed " + err;
+			res.send(result);
+			return;
+		}
+		
+		result += "Reader bind succeeded\n";
+		
+		var filter = `(uid=${req.body.username})`;
+		
+		result += `LDAP filter: ${filter}\n`;
+		
+		client.search(req.body.suffix, {filter:filter, scope:"sub"},
+			(err, searchRes) => {
+				var searchList = [];
+				
+				if (err) {
+					result += "Search failed " + err;
+					res.send(result);
+					return;
+				}
+				
+				searchRes.on("searchEntry", (entry) => {
+					result += "Found entry: " + entry + "\n";
+					searchList.push(entry);
+				});
+
+				searchRes.on("error", (err) => {
+					result += "Search failed with " + err;
+					res.send(result);
+				});
+				
+				searchRes.on("end", (retVal) => {
+					result += "Search results length: " + searchList.length + "\n";
+					for(var i=0; i<searchList.length; i++) 
+						result += "DN:" + searchList[i].objectName + "\n";
+					result += "Search retval:" + retVal + "\n";					
+					
+					if (searchList.length === 1) {
+						// Get a list of groups, try to bind after you get it
+						var groupList = [];
+						
+						client.search(req.body.suffix, {filter:`(member=${searchList[0].objectName})`, scope:"sub"},
+							(err, searchRes) => {
+								
+							if (err) {
+								result += "Group search failed " + err;
+								res.send(result);
+								return;
+							}
+				
+							searchRes.on("searchEntry", (entry) => {
+								result += "Group search found entry: " + entry.objectName + "\n";
+								searchList.push(entry);
+							});
+
+							searchRes.on("error", (err) => {
+								result += "Group search failed with " + err;
+								res.send(result);
+							});
+				
+							searchRes.on("end", (retVal) => {
+								result += "Group search done: " + retVal;
+								
+						
+								client.bind(searchList[0].objectName, req.body.password, function(err) {
+									if (err) 
+										result += "Bind with real credential error: " + err;
+									else
+										result += "Bind with real credential is a success";
+								
+									res.send(result);	
+								});  // client.bind (real credential)
+
+							});    // searchRes.on("end"...)
+								
+						});
+												
+						
+					} else { // if (searchList.length === 1)
+						result += "No unique user to bind";
+						res.send(result);
+					}
+
+				});   // searchRes.on("end",...)
+				
+		});   // client.search
+		
+	}); // client.bind  (reader account)
+	
+}); // app.post("/ldapGrp")
+
+
+
 
 
 
