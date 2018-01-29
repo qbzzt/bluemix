@@ -249,11 +249,10 @@ app.post("/adGrp", (req, res) => {
 					return;
 				}
 				
-				searchRes.on("searchEntry", (entry) => {									
-					var re = /memberOf/;
-					var lst = entry.attributes.filter((x) => re.test(x.type.toString()));
+				searchRes.on("searchEntry", (entry) => {	
+					var lst = entry.attributes.filter((x) => x.type === "memberOf");
 					if (lst.length)
-						groups = lst[0].vals;									
+						groups = lst[0].vals;						
 				});
 
 				searchRes.on("error", (err) => {
