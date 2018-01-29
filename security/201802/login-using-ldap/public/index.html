@@ -61,14 +61,16 @@ myApp.controller("myCtrl", function($scope, $http) {
 		);
 	};
 
+	
 	$scope.logonAD = () => {
+		var url = $scope.getGroups? "/adGrp" : "/ad";
+		
 		$scope.response = "Please wait";		
-		$http.post('/ad', JSON.stringify($scope.ldap)).then(
+		$http.post(url, JSON.stringify($scope.ldap)).then(
 			(resp) => {$scope.response = resp.data;},
 			(resp) => {$scope.response = "Error: " + JSON.stringify(resp);}
 		);
-	};
-
+	};	
 	
 });
 
