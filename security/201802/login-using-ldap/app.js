@@ -242,15 +242,18 @@ app.post("/adGrp", (req, res) => {
 		
 		client.search(req.body.suffix, {filter:`(userPrincipalName=${userPrincipalName})`, scope:"sub"},
 			(err, searchRes) => {
-				var searchList = [];
+				var groups = [];
 								
 				if (err) {		
 					res.send("Bind successful, search failed");
 					return;
 				}
 				
-				searchRes.on("searchEntry", (entry) => {
-					searchList.push(entry);
+				searchRes.on("searchEntry", (entry) => {									
+					var re = /memberOf/;
+					var lst = entry.attributes.filter((x) => re.test(x.type.toString()));
+					if (lst.length)
+						groups = lst[0].vals;									
 				});
 
 				searchRes.on("error", (err) => {
@@ -258,15 +261,13 @@ app.post("/adGrp", (req, res) => {
 				});
 				
 				searchRes.on("end", (retVal) => {
-					res.send("Bind and search successful, groups:" + JSON.stringify(searchList[0].memberOf));
+					res.send("Bind and search successful (search retVal:" + retVal + "). Groups:" + groups);
 				});
 		});  // client.search
 
 	}); // client.bind
 	
 }); // app.post("/adGrp...")
-
-
 
 
 
