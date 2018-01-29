@@ -35,7 +35,6 @@ myApp.controller("myCtrl", function($scope, $http) {
 		password: "guest1password",
 		readerDN: "cn=ro_admin,ou=sysadmins,dc=zflexsoftware,dc=com",
 		readerPwd: "zflexpass"
-
 	};
 	
 	$scope.ad = {
@@ -45,6 +44,7 @@ myApp.controller("myCtrl", function($scope, $http) {
 		password: ""		
 	};
 	
+	$scope.getGroups = false;
 	
 	$scope.response = "";
 	
@@ -52,8 +52,10 @@ myApp.controller("myCtrl", function($scope, $http) {
 	$scope.log = (str) => {console.log(str);};
 	
 	$scope.logonLDAP = () => {
-		$scope.response = "Please wait";
-		$http.post('/ldap', JSON.stringify($scope.ldap)).then(
+		var url = $scope.getGroups? "/ldapGrp" : "/ldap";
+		$scope.response = "Please wait";		
+		
+		$http.post(url, JSON.stringify($scope.ldap)).then(
 			(resp) => {$scope.response = resp.data;},
 			(resp) => {$scope.response = "Error: " + JSON.stringify(resp);}
 		);
@@ -85,13 +87,12 @@ myApp.controller("myCtrl", function($scope, $http) {
   		<div class="panel-body">
 			<input type="radio" ng-model="type" value="LDAP">LDAP
 			<input type="radio" ng-model="type" value="AD">Active Directory
+			<br />
+			<input type="checkbox" ng-model="getGroups">Get Groups?
 		</div>
 	</div>   <!-- login type -->
        		
-	<div ng-class="{panel: true,
-					'panel-primary': type==='LDAP',
-					'panel-info' : type==='AD'}"
-					>
+	<div class="panel panel-primary" ng-hide="type==='AD'">
 		<div class="panel-heading">
 			LDAP Details
 		</div>
@@ -135,10 +136,7 @@ myApp.controller("myCtrl", function($scope, $http) {
 	</div> <!-- panel for LDAP -->
 
 
-	<div ng-class="{panel: true,
-					'panel-primary': type==='AD',
-					'panel-info' : type==='LDAP'}"
-					>
+	<div class="panel panel-primary" ng-hide="type==='LDAP'">
 		<div class="panel-heading">
 			Active Directory Details
 		</div>
