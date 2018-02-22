@@ -56,6 +56,12 @@ var currentVisitorNames = () => {
 	return visitorNames().filter((name) => visitors[name].arrived !== undefined);
 };
 
+
+var nonCurrentVisitorNames = () => {
+	return visitorNames().filter((name) => visitors[name].arrived === undefined);
+};
+
+
 var currentVisitorList = () => {
 	return currentVisitorNames().map((name) => {
 		var retVal = {};
@@ -124,10 +130,12 @@ var logIn = (name) => {
 
 
 
+
 var testFunctions = [
 	{path: "visitors", func: () => visitors},
 	{path: "visitorNames", func: visitorNames},	
 	{path: "currentVisitorNames", func: currentVisitorNames},	
+	{path: "nonCurrentVisitorNames", func: nonCurrentVisitorNames},		
 	{path: "currentVisitorList", func: currentVisitorList},		
 	{path: "currentVisitors", func: currentVisitors},			
 	{path: "logIn", func: () => logIn("Deborah Lapidot")},
