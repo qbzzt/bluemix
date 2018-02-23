@@ -22,7 +22,8 @@ app.use(express.static(__dirname + '/public'));
 // Visitors data structure
 var visitors = {
 	"Bill Hamm": {
-		arrived: new Date(Date.now() - 1000*3600*2) 
+		arrived: new Date(Date.now() - 1000*3600*2),
+		history: []
 	},
 	"Deborah Lapidot": {
 		arrived: new Date(Date.now() - 1000*3600),
