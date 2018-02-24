@@ -143,8 +143,8 @@ var testFunctions = [
 	{path: "nonCurrentVisitorNames", func: nonCurrentVisitorNames},		
 	{path: "currentVisitorList", func: currentVisitorList},		
 	{path: "currentVisitors", func: currentVisitors},			
-	{path: "logIn", func: () => logIn("Deborah Lapidot")},
-	{path: "logOut", func: () => logOut("Deborah Lapidot")}	
+	{path: "logIn", func: () => logIn("Avimelech ben-Gideon")},
+	{path: "logOut", func: () => logOut("Avimelech ben-Gideon")}	
 ];
 
 
