@@ -89,6 +89,9 @@ var setVisitor = (name, values) => visitors[name] = values;
 var logOut = (name) => {
 	var oldRecord = getVisitor(name);
 	
+	if (oldRecord === undefined) 
+		return `Error, ${name} is unknown`;
+	
 	if (oldRecord.arrived === undefined)
 		return `Error, ${name} is not logged in`;
 		
