@@ -22,8 +22,7 @@ app.use(express.static(__dirname + '/public'));
 // Visitors data structure
 var visitors = {
 	"Bill Hamm": {
-		arrived: new Date(Date.now() - 1000*3600*2),
-		history: []
+		arrived: new Date(Date.now() - 1000*3600*2)
 	},
 	"Deborah Lapidot": {
 		arrived: new Date(Date.now() - 1000*3600),
@@ -94,6 +93,11 @@ var logOut = (name) => {
 		return `Error, ${name} is not logged in`;
 		
 	var history = oldRecord.history;
+	
+	// If this is the first visit
+	if (history === undefined) 
+		history = [];		
+	
 	history.unshift({
 		arrived: oldRecord.arrived,
 		left: new Date(Date.now())
