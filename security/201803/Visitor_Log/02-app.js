@@ -137,12 +137,12 @@ var logIn = (name) => {
 
 
 var testFunctions = [
-	{path: "visitors", func: () => visitors},
 	{path: "visitorNames", func: visitorNames},	
 	{path: "currentVisitorNames", func: currentVisitorNames},	
 	{path: "nonCurrentVisitorNames", func: nonCurrentVisitorNames},		
 	{path: "currentVisitorList", func: currentVisitorList},		
-	{path: "currentVisitors", func: currentVisitors},			
+	{path: "currentVisitors", func: currentVisitors},	
+	{path: "visitors", func: () => visitors},	
 	{path: "logIn", func: () => logIn("Avimelech ben-Gideon")},
 	{path: "logOut", func: () => logOut("Avimelech ben-Gideon")}	
 ];
