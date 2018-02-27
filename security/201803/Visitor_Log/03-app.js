@@ -164,7 +164,7 @@ testFunctions.map((item) =>
 );
 
 
-// Given a time difference in miliseconds, return a string with the approximate value
+// Given a time difference in milliseconds, return a string with the approximate value
 var tdiffToString = (msec) => {
 	var sec = msec/1000;
 	
