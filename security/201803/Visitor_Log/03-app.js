@@ -205,7 +205,7 @@ var histToTable = (history) => {
 		return "";
 			
 	return `<details>
-		<table border bgcolor="yellow">
+		<table border style="background-color: yellow">
 			<tr>
 				<th>
 					Arrived
