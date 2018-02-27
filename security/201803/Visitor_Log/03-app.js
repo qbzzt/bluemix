@@ -164,7 +164,7 @@ testFunctions.map((item) =>
 );
 
 
-// Given a time difference in milliseconds, return a string with the approximate value
+// Given a time difference in miliseconds, return a string with the approximate value
 var tdiffToString = (msec) => {
 	var sec = msec/1000;
 	
@@ -173,28 +173,17 @@ var tdiffToString = (msec) => {
 		return "one second";
 		
 	if (sec < 60)
-		return Math.floor(sec) + " seconds"; 
-		
-	// Minutes
-	if (sec < 120) 
-		return "one minute";
+		return Math.floor(sec) + " second" + (sec < 2 ? "" : "s"); 
 		
 	if (sec < 3600)
-		return Math.floor(sec/60) + " minutes";
-		
-	// Hours
-	if (sec < 7200) 
-		return "one hour";
+		return Math.floor(sec/60) + " minute" + (sec < 60*2 ? "" : "s");
 		
 	if (sec < 3600*24)
-		return Math.floor(sec/3600) + " hours";
-		
-	// Days
-	if (sec < 3600*24*2)
-		return "one day";
-		
-	return Math.floor(sec/(3600*24)) +  " day";
+		return Math.floor(sec/3600) + " hour" + (sec < 3600*2 ? "" : "s");
+	
+	return Math.floor(sec/(3600*24)) +  " day" + (sec < 3600*24*2 ? "" : "s");
 };
+
 
 
 // Given a history entry (arrived and left times), create a table row with that information
