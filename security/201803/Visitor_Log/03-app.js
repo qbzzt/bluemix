@@ -1,4 +1,5 @@
 /*eslint-env node*/
+/*eslint-disable no-unused-params */
 
 //------------------------------------------------------------------------------
 // node.js starter application for Bluemix
@@ -6,6 +7,7 @@
 
 // This application uses express as its web server
 // for more info, see: http://expressjs.com
+
 
 var express = require('express');
 
@@ -15,9 +17,6 @@ var cfenv = require('cfenv');
 
 // create a new express server
 var app = express();
-
-// serve the files out of ./public as our main files
-app.use(express.static(__dirname + '/public'));
 
 
 // Visitors data structure
@@ -279,52 +278,61 @@ var usersToTable = (list) => {
 
 var visitorsHTML = () => {
 	return `
-		<html>
-			<head>
-				<title>Full Visitor List</title>
-			</head>
-			<body>
 				<h2>Full Visitor List</h2>
 					${usersToTable(visitorNames())}
-			</body>
-		</html>`;
+	`;
 };
 
 
 var currentVisitorsHTML = () => {
 	return `
-		<html>
-			<head>
-				<title>Full Visitor List</title>
-			</head>
-			<body>
-				<h2>Full Visitor List</h2>
+				<h2>Current Visitor List</h2>
 					${usersToTable(currentVisitorNames())}
-			</body>
-		</html>`;
+		`;
 };
 
 
+
+var loginForm = () => {
+	return `<h2>Log in a visitor</h2>
+			<form method="get" action="login">
+				Visitor to log in: <input type="text" name="user">
+			</form>`;
+};
+
+
+var logoutForm = () => {
+	if (currentVisitorNames().length === 0) 
+		return "No users to log out";
+	
+	return `
+		<h2>Log out a visitor</h2>
+		<ul>
+			${currentVisitorNames()
+				.map(name => `<li> 
+					<a href="logout?user=${encodeURI(name)}">${name}</a> 
+					</li>`)
+				.reduce((a,b) => a + b)}
+		</ul>`;	
+};
+
+
+var embedInHTML = (str) => {
+	return `<html><body>${str}</body></html>`;	
+};
+
 app.get("/visitors", (req, res) => {
-	res.send(visitorsHTML());	
+	res.send(embedInHTML(visitorsHTML()));
 });
 
-
-
 app.get("/currentVisitors", (req, res) => {
-	res.send(currentVisitorsHTML());	
+	res.send(embedInHTML(currentVisitorsHTML()));
 });
 
 
 app.get("/login", (req, res) => {
 	if (req.query.user === undefined)
-		res.send(`
-			<html><body>
-				<form method="get">
-					Visitor to log in: <input type="text" name="user">
-				</form>
-			</body></html>		
-		`);
+		res.send(embedInHTML(loginForm()));
 	else 
 		res.send(logIn(req.query.user));
 });
@@ -332,23 +340,23 @@ app.get("/login", (req, res) => {
 
 app.get("/logout", (req, res) => {
 	if (req.query.user === undefined)
-		if (currentVisitorNames().length === 0) 
-			res.send("No users to log out");
-		else
-			res.send(`
-				<html><body>
-					<h2>Log out a visitor</h2>
-					<ul>
-						${currentVisitorNames()
-							.map(name => `<li> 
-								<a href="logout?user=${encodeURI(name)}">${name}</a> 
-								</li>`)
-							.reduce((a,b) => a + b)}
-					</ul>				
-				</body></html>		
-			`);
+		res.send(embedInHTML(logoutForm()));
 	else
 		res.send(logOut(req.query.user));
+});
+
+
+
+app.get(["/index.html", "/"], (req, res) => {
+	res.send(`<html><body>
+		${loginForm()}
+		<hr />
+		${logoutForm()}
+		<hr />
+		${currentVisitorsHTML()}
+		<hr />
+		${visitorsHTML()}
+	</body></html>`);	
 });
 
 
@@ -356,6 +364,11 @@ app.get("/hello", /* @callback */ function(req, res) {
 	res.send("Hello, world");
 });
 
+
+/*
+// serve the files out of ./public as our main files
+app.use(express.static(__dirname + '/public'));
+*/
 
 
 
