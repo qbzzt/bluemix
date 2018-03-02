@@ -245,6 +245,9 @@ var userToRow = (name) => {
 
 // Given a user name list, create a table for those users
 var usersToTable = (list) => {
+	if (list.length === 0)
+		return "";		
+	
 	return `
 
 		<table border>
