@@ -10,11 +10,11 @@
 
 
 var cloudantCred = {
-  "username": "1b97ee50-f307-41ce-8d9c-4b7d2b2b5315-bluemix",
-  "password": "41a119defc84d5b8f0925754bfd6760c2de70633a32cdb80b29c712d9f95affe",
-  "host": "1b97ee50-f307-41ce-8d9c-4b7d2b2b5315-bluemix.cloudant.com",
-  "port": 443,
-  "url": "https://1b97ee50-f307-41ce-8d9c-4b7d2b2b5315-bluemix:41a119defc84d5b8f0925754bfd6760c2de70633a32cdb80b29c712d9f95affe@1b97ee50-f307-41ce-8d9c-4b7d2b2b5315-bluemix.cloudant.com"
+<<
+	
+	redacted
+	
+>>
 };
 
 
