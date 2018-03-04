@@ -54,7 +54,7 @@ var updateVisitors = () => {
 	mydb.insert(updateData,
     	(err, body) => {
     		if (err === undefined)
-    			dbRev = body["_rev"];
+    			dbRev = body["rev"];
     		else
     			log += "updateVisitors: " + err + "<br/>";
     	}
