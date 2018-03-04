@@ -44,8 +44,8 @@ var log = "";
 var updateVisitors = () => {
 	
 	var updateData = {
-    	"_id": "visitors",
-        value: visitors    	
+    		"_id": "visitors",
+        	value: visitors    	
 	};
 	
 	if (dbRev !== "")
