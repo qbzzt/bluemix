@@ -222,12 +222,14 @@ var tdiffToString = (msec) => {
 // Given a history entry (arrived and left times), create a table row with that information
 var histEntryToRow = (entry) => {
 	return `<tr>
-		<td>${Date(entry.arrived)}</td>
-		<td>${Date(entry.left)}</td>
+		<td>${new Date(entry.arrived)}</td>
+		<td>${new Date(entry.left)}</td>
 		<td>${tdiffToString(entry.left-entry.arrived)}</td>
 		</tr>`;
+		
+		// The Date need to be new, otherwise we are just modifying the same object and all dates in
+		// the history table are the same.
 };
-
 
 // Given a history, create a table with it
 var histToTable = (history) => {
