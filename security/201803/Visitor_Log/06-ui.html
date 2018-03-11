@@ -1,0 +1,239 @@
+<html>
+<head>
+<title>Visitor Log</title>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+<!-- Bootstrap -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    
+<!--  Angular  -->
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-sanitize.js"></script>
+
+    
+<script>
+var myApp = angular.module("myApp", ['ngSanitize']);
+var scope;
+
+
+myApp.controller("myCtrl", function($scope) {
+	// Make the scope available outside the controller, which is very useful for
+	// debugging
+  	scope = $scope;
+  	
+  	$scope.visitors = {a: "b"};
+  	$scope.loginUser = "";
+  	
+  	$scope.refreshVisitors = () => {
+  		$.ajax({
+  			url: "/test/visitors",
+  			async: true,
+  			dataType: "json",
+  			success: (obj) => {
+  				$scope.visitors = obj;
+  				$scope.$apply();
+  			}
+  		});
+  	};
+  	
+
+  	$scope.refreshVisitors();
+  	
+  	// Refresh visitors every minute (in case somebody else changes it)
+  	setInterval($scope.refreshVisitors, 60*1000);
+
+
+	// Date.now() doesn't function correctly inside {{}}, so
+	// use this
+	$scope.now = () => Date.now().valueOf();
+
+
+	// Log a user out (ask the server to do it, then refresh the visitors data structure)
+	$scope.logout = name => {
+		$.ajax({
+			url: `logout?user=${encodeURI(name)}`,
+  			async: true,
+  			success: () => $scope.refreshVisitors()
+  		});		
+	};
+
+
+	// Log a user in (ask the server to do it, then refresh the visitors data structure)
+	$scope.login = name => {
+		$.ajax({
+			url: `login?user=${encodeURI(name)}`,
+  			async: true,
+  			success: () => $scope.refreshVisitors()
+  		});		
+	};
+
+
+	// Functions from app.js
+	
+	// Code to manipulate visitors data structure
+	$scope.visitorNames = () => {
+		return Object.keys($scope.visitors);	
+	};	
+
+	$scope.currentVisitorNames = () => {
+		return $scope.visitorNames().filter((name) => $scope.visitors[name].arrived !== undefined);
+	};
+
+
+	$scope.nonCurrentVisitorNames = () => {
+		return $scope.visitorNames().filter((name) => $scope.visitors[name].arrived === undefined);
+	};
+
+
+	// Given a time difference in miliseconds, return a string with the approximate value
+	$scope.tdiffToString = (msec) => {
+		var sec = msec/1000;
+		
+		if (sec < 60)
+			return Math.floor(sec) + " second" + (sec < 2 ? "" : "s"); 
+		
+		if (sec < 3600)
+			return Math.floor(sec/60) + " minute" + (sec < 60*2 ? "" : "s");
+		
+		if (sec < 3600*24)
+			return Math.floor(sec/3600) + " hour" + (sec < 3600*2 ? "" : "s");
+	
+		return Math.floor(sec/(3600*24)) +  " day" + (sec < 3600*24*2 ? "" : "s");
+	};
+
+
+	// Given a history entry (arrived and left times), create a table row with that information
+	$scope.histEntryToRow = (entry) => {
+	return `<tr>
+			<td>${new Date(entry.arrived)}</td>
+			<td>${new Date(entry.left)}</td>
+			<td>${$scope.tdiffToString(entry.left-entry.arrived)}</td>
+			</tr>`;
+		
+		// The Date need to be new, otherwise we are just modifying the same object and all dates in
+		// the history table are the same.
+	};
+
+
+	// Given a history, create a table with it
+	$scope.histToTable = (history) => {
+		if (history === undefined)
+			return "";
+		
+		if (history.length === 0)
+			return "";
+			
+		return `<details>
+			<table class="table table-condensed table-border">
+				<tr>
+					<th>
+						Arrived
+					</th>
+					<th>
+						Left
+					</th>
+					<th>
+						Time here
+					</th>
+				</tr>
+				${history.map($scope.histEntryToRow).reduce((a, b) => a+b)}
+			</table>
+		</details>`;
+	};
+
+
+
+});
+
+
+
+</script>	
+	
+</head>
+<body ng-app="myApp" ng-controller="myCtrl">
+
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+        	<h3 class="panel-title">Current visitors</h3>
+        </div>
+        <div class="panel-body">
+        	<table class="table">
+        		<tr>
+        			<th>Name</th>
+        			<th></th>
+        			<th>Time here</th>
+        			<th>History</th>
+        		<tr ng-repeat="name in currentVisitorNames()">
+        			<td>
+    					{{name}}
+    				</td>
+    				<td>
+    					<button class="btn btn-danger" ng-click="logout(name)">
+    						Logout
+    					</button>
+    				</td>
+    				<td>
+	    				The last {{tdiffToString(now()-visitors[name].arrived)}}    					
+    				</td>
+    				<td>    					
+    					<details ng-if="visitors[name].history && visitors[name].history.length > 0" ng-bind-html="histToTable(visitors[name].history)">
+    					</details>    				
+    				</td>
+    			</tr>
+        	</table>
+        </div>
+    </div>   <!-- current visitors -->
+
+
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+        	<h3 class="panel-title">Visitors not here</h3>
+        </div>
+        <div class="panel-body">
+        	<table class="table">
+        		<tr>
+        			<th>Name</th>
+        			<th></th>
+        			<th>History</th>
+        		<tr ng-repeat="name in nonCurrentVisitorNames()">
+        			<td>
+    					{{name}}
+    				</td>
+    				<td>
+    					<button class="btn btn-success" ng-click="login(name)">
+    						Login
+    					</button>
+    				</td>
+
+    				<td>
+    					<details ng-if="visitors[name].history && visitors[name].history.length > 0" ng-bind-html="histToTable(visitors[name].history)">
+    					</details>
+    				</td>
+    			</tr>
+        	</table>
+
+        </div>
+    </div>  <!-- visitors not here -->
+    
+    <div class="panel panel-success">
+    	<div class="panel-heading">
+    		<h3 class="panel-title">Log In a Visitor</h3>
+    	</div>
+    	<div class="panel-body">
+			<input type="text" ng-model="loginUser">
+			<br />
+			<button class="btn btn-success" ng-click="login(loginUser)">
+				Log on {{loginUser}}
+			</button>
+    	</div>
+    </div>
+
+</body>
+</html>
