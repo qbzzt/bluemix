@@ -27,7 +27,7 @@ app.use(express.static(__dirname + '/public'));
 
 app.post("*", require("body-parser").urlencoded({extended: true}));
 
-app.post("/module", (req, res) => {
+app.post("/module_1", (req, res) => {
 	var moodleData = new lti.Provider("secret", "secret");
 
 	moodleData.valid_request(req, (err, isValid) => {
