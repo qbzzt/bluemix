@@ -19,6 +19,9 @@ var lti = require("ims-lti");
 // create a new express server
 var app = express();
 
+// Necessary because IBM Cloud apps run behind a proxy
+app.enable('trust proxy');
+
 
 var sessions = {};
 
@@ -28,19 +31,20 @@ app.use(express.static(__dirname + '/public'));
 app.post("*", require("body-parser").urlencoded({extended: true}));
 
 app.post("/module_1", (req, res) => {
-	var moodleData = new lti.Provider("secret", "secret");
-
+	
+	var moodleData = new lti.Provider("top", "secret");
 	moodleData.valid_request(req, (err, isValid) => {
 		if (!isValid) {
 			res.send("Invalid request: " + err);
 			return ;
 		}
-
+		
 		var sessionID = uuid();
 		sessions[sessionID] = moodleData;
 		
 		res.send(moodleData.body);
 	});   // moodleDate.valid_request
+	
 });       // app.post("/module");
 
 
