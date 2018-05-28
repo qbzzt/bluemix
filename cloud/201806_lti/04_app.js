@@ -67,7 +67,7 @@ app.post("/module_2", (req, res) => {
 	
 		var sendMe = mod2File.toString().replace("//PARAMS**GO**HERE",
 				`
-					var params = {
+					const params = {
 						sessionID: "${sessionID}",
 						user: "${moodleData.body.ext_user_username}"
 					};
