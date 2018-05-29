@@ -1,0 +1,27 @@
+<html>
+	<head>
+		<script>
+		//PARAMS**GO**HERE
+		</script>
+	</head>
+	<body>
+		<h2>Graded Module</h2>
+		<script>
+			document.write(`Hello ${params.user}`);
+		</script>
+		<p/>
+		Please read this paragraph to learn something very important.
+		<p/> 
+		<h4>Select your grade</h4>
+		<input id="grade" type="range" min="0" max="100">
+		<br/>
+		<button type="button" onClick="
+			var path = `/grade/${params.sessionID}/${grade.value}`;
+			document.location = path;
+		">Submit grade</button>		
+		
+		
+	</body>
+</html>
+		
+		
