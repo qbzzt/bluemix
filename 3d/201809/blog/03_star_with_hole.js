@@ -11,7 +11,7 @@ function main () {
     
     const enclosedAsterisk = intersection(enclosing, asterisk);
     
-    const center = cylinder({r1: 1, r2: 1}).scale([1, 1, 10]);
+    const center = cylinder({r: 1, h: 10});
     
     return difference(enclosedAsterisk, center);
 }
