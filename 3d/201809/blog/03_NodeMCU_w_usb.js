@@ -4,7 +4,7 @@ const devSize = [49, 24.5, 13];
 const margin = 3;
 const wallWidth = 10;
 
-const usbHoleSize = [wallWidth, 10, 8];
+const usbHoleSize = [wallWidth, 15, 8];
 
 
 function main () {
