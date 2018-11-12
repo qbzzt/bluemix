@@ -5,7 +5,7 @@ const margin = 3;
 const wallWidth = 10;
 const slotSize = 3;
 
-const usbHoleSize = [wallWidth, 15, 8];
+const usbHoleSize = [wallWidth, 15, 100];
 
 
 function main () {
@@ -28,13 +28,17 @@ function main () {
     const slotPrecursor = cube({size: [boxSize[0], slotSize/Math.sqrt(2), slotSize/Math.sqrt(2)]}).
         rotateX(45).
         translate([0,slotSize/2,-slotSize/2]).
-        scale([1, 1, 2]);
+        scale([1, 1, 3]);
         
     const zAbove0 = cube({size: [200, 200, 200]}).translate([-100,-100,0]);
     
     const slot = intersection(slotPrecursor, zAbove0).translate([0, (wallWidth-slotSize)/2 ,0]);
     
-    const slots = union(slot, slot.translate([0, boxSize[1]-wallWidth, 0]));
+    const sideSlot = slot.rotateZ(90).translate([boxSize[0],0,0]).scale([1,boxSize[1]/boxSize[0],1]);
+    
+    const slots = union(slot, 
+        slot.translate([0, boxSize[1]-wallWidth, 0]),
+        sideSlot);
     
     const completeBox = union(noSlotBox, slots.translate([0,0,boxSize[2]]));
     
