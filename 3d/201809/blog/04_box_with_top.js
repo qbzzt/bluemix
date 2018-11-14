@@ -34,12 +34,15 @@ function main () {
     
     const slot = intersection(slotPrecursor, zAbove0).translate([0, (wallWidth-slotSize)/2 ,0]);
     
-    const sideSlot = slot.rotateZ(90).translate([boxSize[0],0,0]).scale([1,boxSize[1]/boxSize[0],1]);
+    const backSlot = slot.rotateZ(90).translate([boxSize[0],0,0]).scale([1,boxSize[1]/boxSize[0],1]);
+
+    const frontSlot = difference(backSlot.translate([-boxSize[0]+wallWidth,0,0]), usbHole.translate([0,0,-20]));    
     
     const slots = union(slot, 
         slot.translate([0, boxSize[1]-wallWidth, 0]),
-        sideSlot);
-    
+        backSlot, 
+        frontSlot);
+        
     const completeBox = union(noSlotBox, slots.translate([0,0,boxSize[2]]));
     
     const top = cube({size: [boxSize[0], boxSize[1], wallWidth]});
