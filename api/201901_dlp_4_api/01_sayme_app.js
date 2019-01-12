@@ -46,8 +46,6 @@ const text2Speech = (text, useProxy, cb) => {
 
         reqOpts = Object.assign(url.parse(`${useUrl}/v1/synthesize`), reqOpts);
         
-        console.log(reqOpts);
-        
         const httpsReq = https.request(reqOpts, res => {
                 res.on("data", chunk => audio[audio.length] = chunk);
                 res.on("end", () => cb(Buffer.concat(audio)));
