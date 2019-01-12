@@ -23,11 +23,12 @@ const url = require('url');
 
 const textToSpeechConf = {
         iam_apikey: '*** REDACTED ***',
-        url: 'https://stream.watsonplatform.net/text-to-speech/api',
+        directUrl: 'https://stream.watsonplatform.net/text-to-speech/api',
+        proxyUrl: '',
         audioFormat: "audio/mp3"
 };
 
-const text2Speech = (text, cb) => {
+const text2Speech = (text, useProxy, cb) => {
         var audio = [];
 
         const reqBody = {text: text};
@@ -41,7 +42,9 @@ const text2Speech = (text, cb) => {
                 auth: `apikey:${textToSpeechConf.iam_apikey}`
         };   // reqOpts
 
-        reqOpts = Object.assign(url.parse(`${textToSpeechConf.url}/v1/synthesize`), reqOpts);
+		const useUrl = useProxy ? textToSpeechConf.proxyUrl : textToSpeechConf.directUrl;
+
+        reqOpts = Object.assign(url.parse(`${useUrl}/v1/synthesize`), reqOpts);
         
         console.log(reqOpts);
         
@@ -61,7 +64,7 @@ app.use(express.static(__dirname + '/public'));
 
 app.post('/voice.mp3', (req, res) => {
         res.setHeader("Content-Tyoe", "audio/mpeg");
-        text2Speech(req.body.text, audioBuf => res.send(audioBuf));
+        text2Speech(req.body.text, req.body.server === "proxy", audioBuf => res.send(audioBuf));
 }); // app.post /voice.mp3
 
 
