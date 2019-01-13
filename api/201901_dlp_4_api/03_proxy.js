@@ -48,7 +48,7 @@ app.put("*", bodyParser.text({type: "*/*"}));
 
 // Show and delete the log
 app.get("/log", (req, res) => {
-	res.send(log.reduce((a, b) => `${a}<br/>${b}`));
+	res.send(`<PRE>${log.reduce((a, b) => a+b, "")}</PRE>`);
 	
 	log = [];
 });
@@ -80,7 +80,7 @@ app.all("*", (req, res) => {
 		proxiedRes.on("error", err => res.send(JSON.stringify(err) + "<hr />" + retVal));
 	});
 
-	// POST requests have a body
+	// POST and PUT requests have a body
 	if ((req.method === "POST") || (req.method === "PUT"))
 		proxiedReq.write(req.body);		
 
@@ -89,7 +89,9 @@ app.all("*", (req, res) => {
 	if (log.length > 1000)
 		log = [];
 		
-	log.push(`${new Date()}: ${req.method} to ${req.url}`);
+	log.push(`${new Date()}: ${req.method} to ${req.url}\n`);
+	if ((req.method === "POST") || (req.method === "PUT"))
+		log.push(`\t${req.body}\n`);
 });
 
 
