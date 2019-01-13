@@ -36,11 +36,22 @@ const host = "stream.watsonplatform.net";
 const appEnv = cfenv.getAppEnv();
 
 
+// log file for requests
+var log = [];
+
 // If this is a POST request, read the body.
 // bodyParser.text() normally doesn't deal with all mime types - the type parameter
 // forces that behavior
 app.post("*", bodyParser.text({type: "*/*"}));
 app.put("*", bodyParser.text({type: "*/*"}));
+
+
+// Show and delete the log
+app.get("/log", (req, res) => {
+	res.send(log.reduce((a, b) => `${a}<br/>${b}`));
+	
+	log = [];
+});
 
 
 app.all("*", (req, res) => {
@@ -74,7 +85,14 @@ app.all("*", (req, res) => {
 		proxiedReq.write(req.body);		
 
 	proxiedReq.end();	
+	
+	if (log.length > 1000)
+		log = [];
+		
+	log.push(`${new Date()}: ${req.method} to ${req.url}`);
 });
+
+
 
 
 // start server on the specified port and binding host
