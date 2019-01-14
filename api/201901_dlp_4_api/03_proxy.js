@@ -39,11 +39,12 @@ const appEnv = cfenv.getAppEnv();
 // log file for requests
 var log = [];
 
-// If this is a POST request, read the body.
+// If this is a request that needs it, read the body.
 // bodyParser.text() normally doesn't deal with all mime types - the type parameter
 // forces that behavior
 app.post("*", bodyParser.text({type: "*/*"}));
 app.put("*", bodyParser.text({type: "*/*"}));
+app.patch("*", bodyParser.text({type: "*/*"}));
 
 
 // Show and delete the log
@@ -90,7 +91,7 @@ app.all("*", (req, res) => {
 		log = [];
 		
 	log.push(`${new Date()}: ${req.method} to ${req.url}\n`);
-	if ((req.method === "POST") || (req.method === "PUT"))
+	if ((req.method === "POST") || (req.method === "PUT") || (req.method === "PATCH"))
 		log.push(`\t${req.body}\n`);
 });
 
