@@ -42,7 +42,7 @@ const text2Speech = (text, useProxy, cb) => {
                 auth: `apikey:${textToSpeechConf.iam_apikey}`
         };   // reqOpts
 
-		const useUrl = useProxy ? textToSpeechConf.proxyUrl : textToSpeechConf.directUrl;
+	const useUrl = useProxy ? textToSpeechConf.proxyUrl : textToSpeechConf.directUrl;
 
         reqOpts = Object.assign(url.parse(`${useUrl}/v1/synthesize`), reqOpts);
         
