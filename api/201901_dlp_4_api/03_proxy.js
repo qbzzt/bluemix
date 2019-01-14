@@ -82,7 +82,7 @@ app.all("*", (req, res) => {
 	});
 
 	// POST and PUT requests have a body
-	if ((req.method === "POST") || (req.method === "PUT"))
+	if ((req.method === "POST") || (req.method === "PUT") || (req.method === "PATCH"))
 		proxiedReq.write(req.body);		
 
 	proxiedReq.end();	
