@@ -67,12 +67,6 @@ app.post("/text-to-speech/api/v1/synthesize", (req, res, next) => {
 	req.body = JSON.stringify(requestBody);
 	req.headers["content-length"] = req.body.length;
 	
-	log.push("body:" + req.body + "\n");
-	log.push("length in req:" + req.length + "\n");
-	log.push("length in body:" + req.body.length + "\n");
-	log.push("headers:" + JSON.stringify(req.headers) + "\n");
-	log.push("req fields:" + Object.keys(req) + "\n");
-	
 	next();	
 });
 
