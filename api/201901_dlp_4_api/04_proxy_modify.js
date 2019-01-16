@@ -60,7 +60,7 @@ app.get("/log", (req, res) => {
 app.post("/text-to-speech/api/v1/synthesize", (req, res, next) => {
 
 	// Here we DO need the parsed request body
-	const requestBody = JSON.parse(req.body);
+	var requestBody = JSON.parse(req.body);
 	
 	requestBody.text = "I said that " + requestBody.text;
 	
